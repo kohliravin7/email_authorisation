@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+    {% if success %}
+        Activation Successful
+    {% endif %}
+{% endblock %}
+{% block body %}
+    {% if success %}
+        <p>{{ message }}</p>
+    {% else %}
+        <p class = "failure">{{ message }}</p>
+    {% endif %}
+{% endblock %}

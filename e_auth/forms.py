@@ -14,22 +14,22 @@ class UserCreation(forms.Form):
     # , validators=[isValidEmail])
     password1 = forms.CharField(label="", max_length=50, min_length=6, widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
 
+    class Meta:
+        model = User
+        fields = ("username", 'password', 'email')
     def save(self, data):
         user = User.objects.create_user(data["username"], data["email"], data["password"])
         user.is_active = False
         user.save()
         userProfile = UserProfile()
         userProfile.user = user
-        userProfile.activation_key = data["activation-key"]
+        userProfile.activation_key = data["activation_key"]
         userProfile.expiry_date = data["expiry"]
+        userProfile.save()
 
     def sendEmail(self, data):
-        activation_link = 'localhost:8000/activate/%s' % data["activation_key"]
+        activation_link = 'http://127.0.0.1:8000/auth/activate/?key=%s' % data["activation_key"]
         email = data["email"]
-        f = file.read('email.txt')
-        body = ""
-        for line in f:
-            body.append(line)
-
-        body.append("\n %s" % activation_link)
-        send_mail("Activation link for %s" % data["username"], body, ['%s' % data['email']], fail_silently=False)
+        body = "Please press the following link to activate your account:"
+        body += "\n %s" % activation_link
+        send_mail("Activation link for %s" % data["username"], from_email='kohliravin7@gmail.com', message=body, recipient_list=[email], fail_silently=False)
