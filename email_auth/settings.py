@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'e_auth'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -71,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'email_auth.wsgi.application'
 
-
+DEFAULT_FROM_EMAIL = 'kohliravin7@gmail.com'  # change from email
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -81,6 +82,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+AUTH_USER_MODEL = 'auth.User'
 
 
 # Internationalization
